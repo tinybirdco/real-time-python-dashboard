@@ -1,0 +1,11 @@
+NODE endpoint
+DESCRIPTION >
+    undefined
+
+SQL >
+
+    SELECT DISTINCT airline
+    FROM flight_bookings
+    ORDER BY airline ASC
+
+

@@ -1,0 +1,62 @@
+TOKEN "flight_bookings_by_minute_endpoint_read_1112" READ
+
+NODE counts
+DESCRIPTION >
+    undefined
+
+SQL >
+
+    %
+    SELECT
+      toStartOfMinute(parseDateTimeBestEffort(timestamp)) AS minute,
+      airline,
+      count(transaction_id) AS count
+    FROM flight_bookings
+    WHERE 1
+    {% if defined(airlines) %}
+        AND airline IN {{Array(airlines, 'String')}}
+    {% end %}
+    {% if defined(meal_preference) %}
+        AND meal_choice = {{String(meal_preference)}}
+    {% end %}
+    GROUP BY minute, airline
+
+
+
+NODE time_series
+DESCRIPTION >
+    undefined
+
+SQL >
+
+    %
+    WITH
+        toStartOfMinute(now() - INTERVAL {{UInt16(lookback, '24')}} hour) AS start,
+        toStartOfMinute(now()) AS end
+    SELECT DISTINCT
+      arrayJoin(arrayMap(x -> toDateTime(x), range(toUInt32(start), toUInt32(end), 60))) as minute,
+      airlines.airline
+    FROM airlines
+
+
+
+NODE endpoint
+DESCRIPTION >
+    undefined
+
+SQL >
+
+    %
+    SELECT
+      minute, 
+      airline,
+      count
+    FROM time_series t
+    LEFT JOIN counts c ON c.minute = t.minute AND c.airline = t.airline
+    WHERE 1
+    {% if defined(airlines) %}
+        AND airline IN {{Array(airlines, 'String')}}
+    {% end %}
+    ORDER BY minute, airline ASC
+
+

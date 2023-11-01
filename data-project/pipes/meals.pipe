@@ -1,0 +1,13 @@
+TOKEN "departure_cities_endpoint_read_3092" READ
+
+NODE endpoint
+DESCRIPTION >
+    undefined
+
+SQL >
+
+    SELECT DISTINCT meal_choice AS meal_preference
+    FROM flight_bookings
+    ORDER BY meal_preference ASC
+
+

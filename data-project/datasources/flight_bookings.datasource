@@ -1,0 +1,17 @@
+
+SCHEMA >
+    `age` Int16 `json:$.age`,
+    `airline` String `json:$.airline`,
+    `email` String `json:$.email`,
+    `extra_bags` Int16 `json:$.extra_bags`,
+    `flight_from` String `json:$.flight_from`,
+    `flight_to` String `json:$.flight_to`,
+    `meal_choice` String `json:$.meal_choice`,
+    `name` String `json:$.name`,
+    `passport_number` Int32 `json:$.passport_number`,
+    `priority_boarding` UInt8 `json:$.priority_boarding`,
+    `timestamp` String `json:$.timestamp`,
+    `transaction_id` String `json:$.transaction_id`
+
+ENGINE "MergeTree"
+ENGINE_SORTING_KEY "age, priority_boarding, timestamp, transaction_id"
