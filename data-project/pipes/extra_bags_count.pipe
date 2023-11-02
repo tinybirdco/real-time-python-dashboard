@@ -1,0 +1,25 @@
+TOKEN "extra_bags_count_endpoint_read_6426" READ
+
+NODE endpoint
+DESCRIPTION >
+    undefined
+
+SQL >
+
+    %
+    SELECT
+      extra_bags,
+      airline,
+      count(transaction_id) AS count
+    FROM flight_bookings
+    WHERE 1
+    {% if defined(airlines) %}
+        AND airline IN {{Array(airlines, 'String')}}
+    {% end %}
+    {% if defined(meal_preference) %}
+        AND meal_choice = {{String(meal_preference)}}
+    {% end %}
+    GROUP BY extra_bags, airline
+    ORDER BY extra_bags, airline ASC
+
+

@@ -1,0 +1,37 @@
+TOKEN "priority_boarding_distribution_endpoint_read_9906" READ
+
+NODE counts
+DESCRIPTION >
+    undefined
+
+SQL >
+
+    %
+    SELECT
+      priority_boarding,
+      airline,
+      count(transaction_id) AS count
+    FROM flight_bookings
+    WHERE 1
+    {% if defined(airlines) %}
+        AND airline IN {{Array(airlines, 'String')}}
+    {% end %}
+    {% if defined(meal_preference) %}
+        AND meal_choice = {{String(meal_preference)}}
+    {% end %}
+    GROUP BY priority_boarding, airline
+    ORDER BY airline ASC
+
+
+
+NODE endpoint
+SQL >
+
+    SELECT
+      airline,
+      sumIf(count,priority_boarding=1)/sum(count)*100 AS priority_boarding_percent
+    FROM counts
+    GROUP BY airline
+    ORDER BY airline ASC
+
+

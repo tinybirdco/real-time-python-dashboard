@@ -1,0 +1,30 @@
+TOKEN "age_distribution_endpoint_read_5474" READ
+
+NODE endpoint
+DESCRIPTION >
+    undefined
+
+SQL >
+
+    %
+    SELECT
+      CASE
+        WHEN age BETWEEN 18 AND 24 THEN '18 to 24'
+        WHEN age BETWEEN 25 AND 34 THEN '25 to 34'
+        WHEN age BETWEEN 35 AND 44 THEN '35 to 44'
+        WHEN age BETWEEN 45 AND 54 THEN '45 to 54'
+        WHEN age BETWEEN 55 AND 65 THEN '55 to 64'
+        WHEN age >= 65 THEN '65+'
+      END AS age_grouping,
+      count(transaction_id) AS count
+    FROM flight_bookings
+    WHERE 1
+    {% if defined(airlines) %}
+        AND airline IN {{Array(airlines, 'String')}}
+    {% end %}
+    {% if defined(meal_preference) %}
+        AND meal_choice = {{String(meal_preference)}}
+    {% end %}
+    GROUP BY age_grouping
+
+
