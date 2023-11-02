@@ -7,20 +7,20 @@ DESCRIPTION >
 SQL >
 
     %
-    SELECT
-      priority_boarding,
-      airline,
-      count(transaction_id) AS count
-    FROM flight_bookings
-    WHERE 1
-    {% if defined(airlines) %}
-        AND airline IN {{Array(airlines, 'String')}}
-    {% end %}
-    {% if defined(meal_preference) %}
-        AND meal_choice = {{String(meal_preference)}}
-    {% end %}
-    GROUP BY priority_boarding, airline
-    ORDER BY airline ASC
+        SELECT
+          priority_boarding,
+          airline,
+          count(transaction_id) AS count
+        FROM flight_bookings
+        WHERE 1
+        {% if defined(airlines) %}
+            AND airline IN {{Array(airlines, 'String')}}
+        {% end %}
+        {% if defined(meal_preference) %}
+            AND meal_choice = {{String(meal_preference)}}
+        {% end %}
+        GROUP BY priority_boarding, airline
+        ORDER BY airline ASC
 
 
 
