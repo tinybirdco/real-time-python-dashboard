@@ -51,14 +51,14 @@ Go to [ui.tinybird.co](https://ui.tinybird.co) and create a Workspace called in 
 Authenticate to your Tinybird Workspace
 
 ```bash
-cd data-project
+cd tinybird
 tb auth --token <your user admin token>
 echo ".tinyb" >> .gitignore
 ```
 
 ## 4. Push Tinybird resources
 
-From the `data-project` folder, run the following to push the Tinybird Pipes and Data Source to your Workspace:
+From the `tinybird` folder, run the following to push the Tinybird Pipes and Data Source to your Workspace:
 
 ```bash
 tb push datasources pipes
