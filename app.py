@@ -9,7 +9,7 @@ import json
 app = Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
 
 # Get Tinybird token and host from local
-with open('data-project/.tinyb') as tb:
+with open('tinybird/.tinyb') as tb:
     data = json.load(tb)
     tb_token = data['token']
     tb_host = data['host']
